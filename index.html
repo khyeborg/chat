@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="main.css">
+
+		<title>Chat App</title>
+		
+	</head>
+
+	<body>
+
+		<h1>Firebase Chatroom</h1>
+
+		<div id="before_login">
+			
+			<form>
+				Username: <input type="text" id="username">
+				<button id="save">save</button>
+			</form>
+
+		</div>
+
+		<div id="after_login">
+
+			<div id="room_div">
+				<div class="rooms" id="first_room">Chat Room 1</div>
+				<div class="rooms" id="second_room">Chat Room 2</div>
+				<div class="rooms" id="third_room">Chat Room 3</div>
+			</div>
+
+			<div class="chats" id="chatroom"></div>
+			<div class="chats" id="chatroom2"></div>
+			<div class="chats" id="chatroom3"></div>
+			<br><br>
+			
+			<form id="form">
+				<input type="text" class="user_chats" id="user_chat">
+				<button id="submit">submit chat</button>
+			</form>
+
+			<form id="form2">	
+				<input type="text" class="user_chats" id="user_chat2">
+				<button id="submit2">submit chat</button>
+			</form>
+
+			<form id="form3">			
+				<input type="text" class="user_chats" id="user_chat3">
+				<button id="submit3">submit chat</button>
+			</form>
+
+		</div>
+
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
+
+		<!-- TODO: Add SDKs for Firebase products that you want to use
+			https://firebase.google.com/docs/web/setup#config-web-app -->
+
+		<script>
+			// Your web app's Firebase configuration
+			var firebaseConfig = {
+				apiKey: "AIzaSyDR0l5OqeDNedzVirlj7696nqn0MtJUFcA",
+				authDomain: "chat-app-demo-b2801.firebaseapp.com",
+				databaseURL: "https://chat-app-demo-b2801.firebaseio.com",
+				projectId: "chat-app-demo-b2801",
+				storageBucket: "",
+				messagingSenderId: "83014022901",
+				appId: "1:83014022901:web:fd9b7a560e9f582b"
+			};
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+
+			// Initialize a connection to our database
+			let db = firebase.firestore();
+
+			// get references
+			let beforeLoginDiv = document.getElementById("before_login");
+			let afterLoginDiv = document.getElementById("after_login");
+			let usernameTextbox = document.getElementById("username");
+			let saveButton = document.getElementById("save");
+			let userInputTextbox = document.getElementById("user_chat");
+			let userInputTextbox2 = document.getElementById("user_chat2");
+			let userInputTextbox3 = document.getElementById("user_chat3");
+			let submitButton = document.getElementById("submit");
+			let submitButton2 = document.getElementById("submit2");
+			let submitButton3 = document.getElementById("submit3");
+			let chatroomDiv = document.getElementById("chatroom");
+			let chatroomDiv2 = document.getElementById("chatroom2");
+			let chatroomDiv3 = document.getElementById("chatroom3");
+			let username;
+			let firstRoom = document.getElementById("first_room");
+			let secondRoom = document.getElementById("second_room");
+			let thirdRoom = document.getElementById("third_room");
+			let form = document.getElementById("form");
+			let form2 = document.getElementById("form2");
+			let form3 = document.getElementById("form3");
+
+			// hide afterLoginDiv initially
+			afterLoginDiv.style.display = "none";
+			chatroomDiv2.style.display = "none";
+			chatroomDiv3.style.display = "none";
+			form2.style.display = "none";
+			form3.style.display = "none";
+			firstRoom.style.backgroundColor = "lightyellow";
+
+			// set up onclick for saveButton
+			saveButton.onclick = function(event) {
+				// prevent the page from reloading
+				event.preventDefault();
+
+				// capture username
+				username = usernameTextbox.value;
+
+				// hide beforeLoginDiv and show afterLoginDiv
+				beforeLoginDiv.style.display = "none";
+				afterLoginDiv.style.display = "block";
+			}
+
+			// set up onclick for submitButton
+			submitButton.onclick = function(event) {
+				// prevent the page from reloading
+				event.preventDefault();
+
+				// get the UNIX timestamp
+				let timestamp = new Date().getTime();
+				let now = new Date();
+				console.log(timestamp);
+				console.log(now);
+
+				// extract year, month, and date
+				let month = now.getMonth();
+				let date = now.getDate();
+
+				// extract the hours, minutes, and second 
+				let hour = now.getHours();
+				let minute = now.getMinutes();
+				let second = now.getSeconds();
+
+				// save some data into our database
+				db.collection("chatroom").add({
+					chat: userInputTextbox.value,
+					timestamp: timestamp,
+					month: month,
+					date: date,
+					hour: hour,
+					minute: minute,
+					second: second,
+					username: username
+				})
+				// console.log something after our data has been successfully stored in our database
+				.then(function(ref) {
+					console.log("data stored successfully with ref #: ");
+					console.log(ref.id);
+				});
+
+				// clear userInputTextbox
+				userInputTextbox.value = "";
+			}
+
+			// set up onclick for submitButton2
+			submitButton2.onclick = function(event) {
+				// prevent the page from reloading
+				event.preventDefault();
+
+				// get the UNIX timestamp
+				let timestamp = new Date().getTime();
+				let now = new Date();
+				console.log(timestamp);
+				console.log(now);
+
+				// extract year, month, and date
+				let month = now.getMonth();
+				let date = now.getDate();
+
+				// extract the hours, minutes, and second 
+				let hour = now.getHours();
+				let minute = now.getMinutes();
+				let second = now.getSeconds();
+
+				// save some data into our database
+				db.collection("chatroom2").add({
+					chat: userInputTextbox2.value,
+					timestamp: timestamp,
+					month: month,
+					date: date,
+					hour: hour,
+					minute: minute,
+					second: second,
+					username: username
+				})
+				// console.log something after our data has been successfully stored in our database
+				.then(function(ref) {
+					console.log("data stored successfully with ref #: ");
+					console.log(ref.id);
+				});
+
+				// clear userInputTextbox
+				userInputTextbox2.value = "";
+			}
+
+			// set up onclick for submitButton3
+			submitButton3.onclick = function(event) {
+				// prevent the page from reloading
+				event.preventDefault();
+
+				// get the UNIX timestamp
+				let timestamp = new Date().getTime();
+				let now = new Date();
+				console.log(timestamp);
+				console.log(now);
+
+				// extract year, month, and date
+				let month = now.getMonth();
+				let date = now.getDate();
+
+				// extract the hours, minutes, and second 
+				let hour = now.getHours();
+				let minute = now.getMinutes();
+				let second = now.getSeconds();
+
+				// save some data into our database
+				db.collection("chatroom3").add({
+					chat: userInputTextbox3.value,
+					timestamp: timestamp,
+					month: month,
+					date: date,
+					hour: hour,
+					minute: minute,
+					second: second,
+					username: username
+				})
+				// console.log something after our data has been successfully stored in our database
+				.then(function(ref) {
+					console.log("data stored successfully with ref #: ");
+					console.log(ref.id);
+				});
+
+				// clear userInputTextbox
+				userInputTextbox3.value = "";
+			}
+
+			// everytime the database updates, get the data for chatroomDiv
+			db.collection("chatroom").orderBy("timestamp").onSnapshot(function(snapshot) {
+				// clear the innerHTML of chatroomDiv
+				chatroomDiv.innerHTML = "";
+
+				// iterate through databse and add the info to the chatroomDiv
+				for (let i = 0; i < snapshot.docs.length; i++) {
+					chatroomDiv.innerHTML += snapshot.docs[i].data().month + "/" + snapshot.docs[i].data().date + " ";
+					chatroomDiv.innerHTML += snapshot.docs[i].data().hour + ":" + snapshot.docs[i].data().minute + ":" + snapshot.docs[i].data().second + " ";
+					chatroomDiv.innerHTML += snapshot.docs[i].data().username + ": ";
+					chatroomDiv.innerHTML += snapshot.docs[i].data().chat + "<br>";
+				}
+			});
+
+			// everytime the database updates, get the data for chatroomDiv2
+			db.collection("chatroom2").orderBy("timestamp").onSnapshot(function(snapshot) {
+				// clear the innerHTML of chatroomDiv
+				chatroomDiv2.innerHTML = "";
+
+				// iterate through databse and add the info to the chatroomDiv2
+				for (let i = 0; i < snapshot.docs.length; i++) {
+					chatroomDiv2.innerHTML += snapshot.docs[i].data().month + "/" + snapshot.docs[i].data().date + " ";
+					chatroomDiv2.innerHTML += snapshot.docs[i].data().hour + ":" + snapshot.docs[i].data().minute + ":" + snapshot.docs[i].data().second + " ";
+					chatroomDiv2.innerHTML += snapshot.docs[i].data().username + ": ";
+					chatroomDiv2.innerHTML += snapshot.docs[i].data().chat + "<br>";
+				}
+			});
+
+			// everytime the database updates, get the data for chatroomDiv3
+			db.collection("chatroom3").orderBy("timestamp").onSnapshot(function(snapshot) {
+				// clear the innerHTML of chatroomDiv
+				chatroomDiv3.innerHTML = "";
+
+				// iterate through databse and add the info to the chatroomDiv3
+				for (let i = 0; i < snapshot.docs.length; i++) {
+					chatroomDiv3.innerHTML += snapshot.docs[i].data().month + "/" + snapshot.docs[i].data().date + " ";
+					chatroomDiv3.innerHTML += snapshot.docs[i].data().hour + ":" + snapshot.docs[i].data().minute + ":" + snapshot.docs[i].data().second + " ";
+					chatroomDiv3.innerHTML += snapshot.docs[i].data().username + ": ";
+					chatroomDiv3.innerHTML += snapshot.docs[i].data().chat + "<br>";
+				}
+			});
+
+			// set up onclicks for the rooms
+			firstRoom.onclick = function() {
+				// hide and show certain stuff
+				chatroomDiv.style.display = "block";
+				chatroomDiv2.style.display = "none";
+				chatroomDiv3.style.display = "none";
+				form.style.display = "block";
+				form2.style.display = "none";
+				form3.style.display = "none";
+
+				// change backgroundColor of certain stuff
+				firstRoom.style.backgroundColor = "lightyellow";
+				secondRoom.style.backgroundColor = "rgba(121, 189, 154)";
+				thirdRoom.style.backgroundColor = "rgba(59, 134, 134)";
+			}
+
+			secondRoom.onclick = function() {
+				// hide and show certain stuff
+				chatroomDiv.style.display = "none";
+				chatroomDiv2.style.display = "block";
+				chatroomDiv3.style.display = "none";
+				form.style.display = "none";
+				form2.style.display = "block";
+				form3.style.display = "none";
+
+				// change backgroundColor of certain stuff
+				firstRoom.style.backgroundColor = "rgba(168, 219, 168)";
+				secondRoom.style.backgroundColor = "lightyellow";
+				thirdRoom.style.backgroundColor = "rgba(59, 134, 134)";
+			}
+
+			thirdRoom.onclick = function() {
+				// hide and show certain stuff
+				chatroomDiv.style.display = "none";
+				chatroomDiv2.style.display = "none";
+				chatroomDiv3.style.display = "block";
+				form.style.display = "none";
+				form2.style.display = "none";
+				form3.style.display = "block";
+
+				// change backgroundColor of certain stuff
+				firstRoom.style.backgroundColor = "rgba(168, 219, 168)";
+				secondRoom.style.backgroundColor = "rgba(121, 189, 154)";
+				thirdRoom.style.backgroundColor = "lightyellow";
+			}
+
+		</script>
+		
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

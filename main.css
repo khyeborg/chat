@@ -1,0 +1,37 @@
+.chats {
+    border: 3px solid black;
+    min-height: 400px;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.user_chats {
+    width: 500px;
+}
+
+#room_div {
+    display: flex;
+}
+
+.rooms {
+    text-align: right;
+    height: 40px;
+    width: 30.5%;
+    font-size: 150%;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-bottom: 8px;
+    font-family: Helvetica;
+}
+
+#first_room {
+    background: rgba(168, 219, 168);
+}
+
+#second_room {
+    background: rgba(121, 189, 154);
+}
+
+#third_room {
+    background: rgba(59, 134, 134);
+}
